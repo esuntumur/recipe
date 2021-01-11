@@ -25,6 +25,7 @@ const controlSearch = async () => {
     renderLoader(elements.searchResultDiv);
     // 4) Хайлтыг гүйцэтгэнэ
     await state.search.doSearch();
+    // searchView.renderRecipes();
     // 5) Хайлтын үр дүнг дэлгэцэнд үзүүлнэ
     clearLoader();
     if (state.search.result === undefined) alert("хайлт илэрцгүй...");
@@ -35,4 +36,14 @@ const controlSearch = async () => {
 elements.searchForm.addEventListener("submit", (e) => {
   e.preventDefault(); // default үйлдлийг хийхгүй
   controlSearch();
+});
+
+elements.pageButtons.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn-inline");
+
+  if (btn) {
+    const gotoPageNumber = Number(btn.dataset.goto);
+    searchView.clearSearchResults();
+    searchView.renderRecipes(state.search.result, gotoPageNumber);
+  }
 });
